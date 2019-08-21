@@ -13,6 +13,16 @@ use Illuminate\Http\Request;
 |
 */
 
+//Rotas dos produtos
+Route::namespace('Api')->name('api.')->group(function(){
+    Route::prefix('products')->group(function(){
+        
+        Route::get('/','ProductController@index')->name('products_index');
+        Route::get('/{id}','ProductController@store')->name('products_id');
+
+    });
+});
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
