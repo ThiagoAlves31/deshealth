@@ -45,6 +45,9 @@ php artisan key:generate
 php artisan migrate
 php artisan db:seed
 ```
+Agora conseguimos listar os produtos através do link http://localhost:8080/api/products 
+
+
 ### Utilizando API
 #### Produtos
 - GET  /api/products        - Lista todos os produtos
