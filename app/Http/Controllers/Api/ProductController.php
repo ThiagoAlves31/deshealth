@@ -25,7 +25,7 @@ class ProductController extends Controller
     public function index()
     {	
 
-        $data = DB::table('Products')
+        $data = DB::table('products')
                     ->leftjoin('stocks', 'products.product_id', '=', 'stocks.product_id')
                     ->select('products.product_id',
                              'products.name',
@@ -157,7 +157,7 @@ class ProductController extends Controller
 
     public function searchId($id)
     {
-        $product = DB::table('Products')
+        $product = DB::table('products')
                         ->leftjoin('stocks', 'products.product_id', '=', 'stocks.product_id')
                         ->where('products.product_id','=',$id)
                         ->select('products.product_id',
@@ -178,7 +178,7 @@ class ProductController extends Controller
 
     public function searchDescription($text)
     {
-        $product = DB::table('Products')
+        $product = DB::table('products')
                         ->leftjoin('stocks', 'products.product_id', '=', 'stocks.product_id')
                         ->Where('products.name','like','%'.$text.'%')
                         ->orWhere('products.industry','like','%'.$text.'%')
