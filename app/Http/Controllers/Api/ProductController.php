@@ -80,7 +80,10 @@ class ProductController extends Controller
             
             $productData = $request->all();
 
-            if(isset($productData['amount']))
+            //Verifica se o produto existe através do ID
+            $product= $this->product->where('product_id',$id)->first();
+
+            if(isset($productData['amount']) and isset($product))
             {   
                 //Tira o valor de estoque do array
                 $amount = $productData['amount'];
@@ -97,11 +100,15 @@ class ProductController extends Controller
 
                 $data = ['data' => ['msg'=> 'Produto atualizado com sucesso!']];
 
-            }else{
+            }elseif(isset($product)){
 
                 $product     = $this->product->where('product_id',$id);
                 $product->Update($productData);
-                $data = ['data' => ['msg'=> 'Produto atualizado com sucesso!']]; 
+                $data = ['data' => ['msg'=> 'Produto atualizado com sucesso!']];
+
+            }else{
+                 return response()->json(['data' => ['msg' => 'Produto ID '.$id.' nao encontrado!']],404,
+                                        array('Content-Type' => 'application/json;charset=utf8'),JSON_UNESCAPED_UNICODE);
             }
             return response()->json($data,201);
 
@@ -125,7 +132,8 @@ class ProductController extends Controller
 
             if(!$product)
             {
-                return response()->json(['data' => ['msg' => 'Produto ID '.$id.' nao encontrado!']],404,array('Content-Type' => 'application/json;charset=utf8'),JSON_UNESCAPED_UNICODE);
+                return response()->json(['data' => ['msg' => 'Produto ID '.$id.' nao encontrado!']],404,
+                                         array('Content-Type' => 'application/json;charset=utf8'),JSON_UNESCAPED_UNICODE);
 
             }
 
