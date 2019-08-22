@@ -18,7 +18,12 @@ Route::namespace('Api')->name('api.')->group(function(){
     Route::prefix('products')->group(function(){
         
         Route::get('/','ProductController@index')->name('products_index');
-        Route::get('/{id}','ProductController@store')->name('products_id');
+        Route::post('/','ProductController@CreateProduct')->name('products_create');
+        Route::put('/{id}','ProductController@UpdateProduct')->name('products_update');
+        Route::delete('/{id}','ProductController@DeleteProduct')->name('products_update');
+
+        Route::get('/{id}','ProductController@searchId')->name('products_id');
+        Route::get('/description/{text}','ProductController@searchDescription')->name('products_description');
 
     });
 });
