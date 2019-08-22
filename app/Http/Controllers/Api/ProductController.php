@@ -26,7 +26,7 @@ class ProductController extends Controller
     {	
 
         $data = DB::table('Products')
-                    ->join('stocks', 'products.product_id', '=', 'stocks.product_id')
+                    ->leftjoin('stocks', 'products.product_id', '=', 'stocks.product_id')
                     ->select('products.product_id',
                              'products.name',
                              'products.industry',
@@ -49,23 +49,16 @@ class ProductController extends Controller
             $productData = $request->all();
 
             //Verifica se passaram alguma quantidade para o estoque
-            if(isset($productData['amount']))
-            {
-                $newProduct = $this->product->Create($productData);
-                
-                $stock = new Stock;
+            $amount = isset($productData['amount']) ? $productData['amount'] : 0;
+            $newProduct = $this->product->Create($productData);
+            
+            //inclui estoque do produto criado
+            $stock = new Stock;
+            $stock->product_id = $newProduct->id;
+            $stock->amount     = $amount;
+            $stock->Save();
+            $data = ['data' => ['msg'=> 'Produto inserido com sucesso!']];
 
-                $stock->product_id = $newProduct->id;
-                $stock->amount     = $productData['amount'];
-                $stock->Save();
-                $data = ['data' => ['msg'=> 'Produto inserido com sucesso!']];
-
-            }else{
-
-                $this->product->Create($productData);
-                
-                $data = ['data' => ['msg'=> 'Produto inserido com sucesso!']];
-            }
 
             return response()->json($data,201);
 

@@ -8,9 +8,11 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Product::class, function (Faker $faker) {
     return [
-		'name' 		=> $faker->name,
-		//'name' 		=> (rand(0,1) == true) ? 'Dipirona' : 'Losartana',
-		'industry'  => (rand(0,1) == true) ? 'Medley' : 'Aché',
+		'name' 		=> $faker->unique->randomElement(['Dorflex 300gm', 'Xarelto','Selozok','Neosaldina',
+											  'Torsilax','Aradois','Glifage XR','Addera D3','Anthelios',
+											  'Buscopan','Losartana','Galvus','Benegripe']),
+
+		'industry'  => $faker->randomElement(['Aché','Eurofarma','EMS','Bayer','Sanofi']),
 		'price' 	=> $faker->randomNumber(2),
     ];
 });

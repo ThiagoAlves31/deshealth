@@ -22,7 +22,7 @@ class CreateTableStock extends Migration
                   ->on('products')
                   ->onDelete('cascade');
 
-            $table->integer('amount');
+            $table->integer('amount')->default(0);
             
             $table->timestamps();
         });
